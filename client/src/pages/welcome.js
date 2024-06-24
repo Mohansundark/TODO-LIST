@@ -1,29 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { UserContext } from "../hook/userContext";
 
 const Welcome = () => {
-  // Get the username from the location state
   const location = useLocation();
-  const { username } = location.state || {};
-
-  // State to store the username
-  const [storedUsername, setStoredUsername] = useState("");
+  const { username: locationUsername } = location.state || {};
+  const { username, setUsername } = useContext(UserContext);
 
   useEffect(() => {
-    // Check if the username is available in local storage
-    const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-      setStoredUsername(storedUsername);
-    } else if (username) {
-      // If username is provided in location state, store it in local storage
-      localStorage.setItem("username", username);
-      setStoredUsername(username);
+    if (locationUsername) {
+      setUsername(locationUsername);
     }
-  }, [username]);
+  }, [locationUsername, setUsername]);
 
   return (
     <div className="Welcome">
-      <h1>Welcome, {storedUsername}!</h1>
+      <h1>Welcome, {username}!</h1>
       <p>This is your personalized welcome page.</p>
     </div>
   );

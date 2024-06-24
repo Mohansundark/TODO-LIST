@@ -1,4 +1,4 @@
-const userModel = require("../models/userModel");
+const userModel = require("../models/userModel.js");
 const jwt = require("jsonwebtoken");
 
 const addUser = async (req, res) => {
@@ -19,6 +19,7 @@ const addUser = async (req, res) => {
         // Send a success response
         res.status(201).json({ message: "User created successfully", token });
     } catch (error) {
+        console.log(`Error: ${error}`);
         res.status(500).json({ message: error.message });
 
     }

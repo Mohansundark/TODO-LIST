@@ -1,36 +1,44 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import Welcome from "./welcome";
-import ToDo from "./todo";
+import { useNavigate } from "react-router-dom";
+import Welcome from "../pages/welcome";
+import Todo from "../pages/todo";
+import '../styles/Home.css';
+
 const Home = () => {
-  const [data1, setData1] = useState(null); // State to store the fetched data
-  const [data2, setData2] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
+  const [data, setData] = useState({ data1: null, data2: null });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [todos, setTodos] = useState([]);
   const navigate = useNavigate();
 
-  const fetchData = async () => {
+  const fetchData1 = async () => {
     try {
-      const response = await axios.get("/get"); // Adjust the URL if your backend is running on a different port
-      setData1(response.data);
+      const response = await axios.get("/api/to-do/");
+      console.log(response.data);
+      if (response.data) {
+        setData((prevData) => ({ ...prevData, data2: response.data }));
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-  const fetchData1 = async () => {
+  const fetchTodos = async () => {
     try {
-      const response = await axios.get("/api/to-do/"); // Adjust the URL if your backend is running on a different port
-      setData2(response.data);
+      const response = await axios.get("/api/to-do/all");
+      console.log(response.data);
+      if (response.data) {
+        setTodos(response.data);
+      }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching todos:", error);
     }
   };
 
   useEffect(() => {
-    fetchData();
     fetchData1();
-  }, []); // Empty dependency array to run the effect only once on component mount
+    fetchTodos();
+  }, []);
 
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -42,34 +50,39 @@ const Home = () => {
   };
 
   const handleLogout = () => {
+    setIsLoggedIn(false);
     navigate("/logout");
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.post(`/api/to-do/delete/${id}`);
+      setTodos((prevTodos) => prevTodos.filter((todo) => todo._id !== id));
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
   };
 
   return (
     <div className="Home">
       <h1>Home</h1>
-
-      {/* Render logout button only if logged in */}
-      {!data2 && data1 && (
-        <div>
+      {!data.data2 ? (
+        <>
           <button className="button login_btn" onClick={handleLogin}>
             Login
           </button>
           <button className="button login_btn" onClick={handleSignup}>
             Signup
           </button>
-          <h2>Fetched Data before logging in:</h2>
-          {/* <pre>{JSON.stringify(data1, null, 2)}</pre> */}
-        </div>
-      )}
-      {data2 && (
-        <div>
+        </>
+      ) : (
+        <>
           <Welcome />
-          <ToDo/>
-          <h2>Fetched Data after logging in:</h2>
+          {todos.map((todo) => (
+            <Todo key={todo._id} todo={todo} onDelete={handleDelete} />
+          ))}
           <button onClick={handleLogout}>Logout</button>
-          {/* <pre>{JSON.stringify(data2, null, 2)}</pre> */}
-        </div>
+        </>
       )}
     </div>
   );

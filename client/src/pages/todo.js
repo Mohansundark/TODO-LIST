@@ -1,35 +1,50 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
+import "../styles/todo.css";
 
-const Todo = () => {
-  const [todos, setTodos] = useState([]);
-
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await axios.get("/api/to-do/all");
-        setTodos(response.data);
-        if (response.data.length === 0) {
-          console.log("No todos found");
-        }
-      } catch (error) {
-        console.error("Error fetching todos:", error);
-      }
-    };
-
-    fetchItems();
-  }, []);
+const Todo = ({ todo, onDelete }) => {
+  const handleDelete = () => {
+    onDelete(todo._id);
+  };
 
   return (
-    <div>
-      <h1>To-Do List</h1>
-      <ul className="todo-list">
-        {todos.map((todo) => (
-          <li key={todo._id} className="todo-item">
-            {todo.title} <pre>{todo.description}</pre>
-          </li>
-        ))}
-      </ul>
+    <div className="todo-item">
+      <input type="checkbox" />
+      <style jsx>{`
+        .todo-item {
+          padding: 10px;
+          border-bottom: 1px solid #ccc;
+          margin: 10px 0;
+        }
+
+        .todo-item:last-child {
+          border-bottom: none;
+        }
+
+        .todo-item h3 {
+          margin: 0;
+          font-size: 20px;
+          text-decoration: ${todo.completed ? "line-through" : "none"};
+        }
+
+        .todo-item pre {
+          margin: 0;
+          font-size: 14px;
+          color: #555;
+        }
+
+        .todo-item span {
+          color: red;
+          cursor: pointer;
+        }
+
+        .todo-item span:hover {
+          text-decoration: underline;
+        }
+      `}</style>
+
+      <h3>{todo.title}</h3>
+      <pre>{todo.description}</pre>
+      <span onClick={handleDelete}>delete</span>
     </div>
   );
 };

@@ -5,6 +5,7 @@ const {
   postItem,
   updateItem,
   deleteItem,
+  markAsCompleted
 } = require("../controller/todoController");
 const Router = express.Router();
 
@@ -26,4 +27,7 @@ Router.post("/update/:id", updateItem);
 
 //delete a todo Item
 Router.post("/delete/:id", deleteItem);
+
+//mark a todo item as completed
+Router.post("/completed/:id", markAsCompleted);
 module.exports = Router;

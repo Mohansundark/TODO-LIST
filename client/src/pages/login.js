@@ -1,23 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../hook/userContext";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+  });
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const navigate = useNavigate();
+  const { setUsername } = useContext(UserContext);
+
+  const handleChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/user/login", {
-        username,
-        password,
-      });
-      // Handle successful login here, e.g., store the token, redirect, etc.
-      console.log(response.data);
-      navigate("/", { state: { username } });
+      await axios.post("/api/user/login", credentials);
+      setUsername(credentials.username);
+      navigate("/", { state: { username: credentials.username } });
     } catch (error) {
       setError("Invalid username or password");
       console.error("Login error:", error);
@@ -33,16 +37,18 @@ const Login = () => {
           <label>Username:</label>
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            name="username"
+            value={credentials.username}
+            onChange={handleChange}
           />
         </div>
         <div>
           <label>Password:</label>
           <input
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            value={credentials.password}
+            onChange={handleChange}
           />
         </div>
         <button type="submit">Login</button>

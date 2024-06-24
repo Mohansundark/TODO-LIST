@@ -55,6 +55,7 @@ userSchema.statics.signup = async function (username, email, password) {
 }
 
 userSchema.statics.login = async function (username, password) {
+    console.log(`from login ${username} ${password}`)
     if (validator.isEmpty(username) || validator.isEmpty(password)) {
         throw new Error("All fields are required");
     }

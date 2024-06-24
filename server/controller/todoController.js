@@ -28,7 +28,7 @@ const getTitle = async (req, res) => {
 // Mark a todo item as completed
 const markAsCompleted = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
     const todo = await Todo.findOneAndUpdate(
       { _id: id, user: req.userId },
       { completed: true, completedAt: Date.now() },

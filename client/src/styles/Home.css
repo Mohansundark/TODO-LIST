@@ -1,0 +1,23 @@
+/* styles.css */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+}
+
+.nav-buttons button {
+  margin: 0 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #555;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-buttons button:hover {
+  background-color: #777;
+}
+
