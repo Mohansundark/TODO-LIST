@@ -2,6 +2,7 @@ import React from "react";
 import "../styles/todo.css";
 
 const Todo = ({ todo, onDelete }) => {
+  console.log(todo.completed);
   const handleDelete = () => {
     onDelete(todo._id);
   };
@@ -33,18 +34,27 @@ const Todo = ({ todo, onDelete }) => {
         }
 
         .todo-item span {
-          color: red;
+          
           cursor: pointer;
         }
 
         .todo-item span:hover {
-          text-decoration: underline;
+          
+          background-color:rgba(255,0,0,0.9);
         }
+
+        span.delete{
+        background-color:red;
+        color:white;
+        width:50px;
+        border-radius:5px;}
+
+        
       `}</style>
 
       <h3>{todo.title}</h3>
       <pre>{todo.description}</pre>
-      <span onClick={handleDelete}>delete</span>
+      <span className="delete"onClick={handleDelete}>delete</span>
     </div>
   );
 };

@@ -25,6 +25,7 @@ const getTitle = async (req, res) => {
   }
 };
 
+
 // Mark a todo item as completed
 const markAsCompleted = async (req, res) => {
   try {

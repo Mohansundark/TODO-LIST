@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Welcome from "../pages/welcome";
 import Todo from "../pages/todo";
 import '../styles/Home.css';
+import TodoForm from "./todo_form";
 
 const Home = () => {
   const [data, setData] = useState({ data1: null, data2: null });
@@ -77,7 +78,8 @@ const Home = () => {
         </>
       ) : (
         <>
-          <Welcome />
+            <Welcome />
+            <TodoForm/>
           {todos.map((todo) => (
             <Todo key={todo._id} todo={todo} onDelete={handleDelete} />
           ))}
