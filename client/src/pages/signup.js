@@ -3,7 +3,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  const [formData, setFormData] = useState({ username: "", email: "", password: "" });
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -17,7 +21,7 @@ const Signup = () => {
       await axios.post("/api/user/signup", formData);
       navigate("/login");
     } catch (error) {
-      setError("Failed to signup. Please try again.");
+      setError(error);
       console.error("Signup error:", error);
     }
   };
