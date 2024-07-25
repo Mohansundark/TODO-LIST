@@ -6,6 +6,7 @@ import Signup from "./pages/signup";
 import Logout from "./pages/logout";
 import Welcome from "./pages/welcome";
 import Todo from "./pages/todo";
+import NotFound from "./pages/NotFound";
 function App() {
   return (
     <BrowserRouter>
@@ -16,9 +17,9 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/todo" element={<Todo />} />
+          <Route path="*" element={<NotFound />} />
           {/* <Route path="/welcome" element={<Welcome />} /> */}
         </Routes>
-        
       </div>
     </BrowserRouter>
   );
