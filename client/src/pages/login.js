@@ -21,7 +21,7 @@ const Login = () => {
     try {
       await axios.post("/api/user/login", credentials);
       setUsername(credentials.username);
-      navigate("/", { state: { username: credentials.username } });
+      navigate("/home", { state: { username: credentials.username } });
     } catch (error) {
       setError("Invalid username or password");
       console.error("Login error:", error);

@@ -20,7 +20,7 @@ const Logout = () => {
 
   useEffect(() => {
     if (loggedOut) {
-      navigate("/");
+      navigate("/home");
     }
   }, [loggedOut, navigate]);
 
